@@ -11,14 +11,15 @@ import org.springframework.context.annotation.Profile;
 import com.melo.demo.entities.Category;
 import com.melo.demo.entities.Order;
 import com.melo.demo.entities.OrderItem;
+import com.melo.demo.entities.Payment;
 import com.melo.demo.entities.Product;
 import com.melo.demo.entities.User;
 import com.melo.demo.entities.enums.OrderStatus;
 import com.melo.demo.repositories.CategoryRepository;
+import com.melo.demo.repositories.OrderItemRepository;
 import com.melo.demo.repositories.OrderRepository;
 import com.melo.demo.repositories.ProductRepository;
 import com.melo.demo.repositories.UserRepository;
-import com.melo.demo.repositories.OrderItemRepository;
 
 @Configuration
 @Profile("test")
@@ -82,5 +83,13 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice()); 
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment payO1 = new Payment(null, Instant.parse("2019-06-20T20:53:07Z"), o1);
+		Payment payO2 = new Payment(null, Instant.parse("2023-03-22T17:21:22Z"), o3);
+		
+		o1.setPayment(payO1);
+		orderRepository.save(o1);
+		o3.setPayment(payO2);
+		orderRepository.save(o3);
 	}
 }
